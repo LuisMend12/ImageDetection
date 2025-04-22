@@ -1,5 +1,4 @@
-# ImageDetection
-Monte Carlo Simulation
+#Monte Carlo Simulation
 This repository contains a Monte Carlo simulation implementation to solve various types of problems using stochastic processes. Monte Carlo methods are powerful tools for performing numerical simulations and solving complex mathematical problems by relying on random sampling.
 
 Overview
