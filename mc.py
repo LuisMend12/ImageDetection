@@ -32,8 +32,13 @@ def playRouletter(game, numSpins, pocket, bet, toPrint):
               str(100 * totPocket / numSpins) + '%\n')
     return totPocket / numSpins
 
-
-
+random.seed(0)
 game = FairRouletter()
-for numSpins in (100, 100000):
-    playRouletter(game, numSpins, 2, 1, True)
+for numSpins in (100, 1000000):
+    for i in range(3):
+        playRouletter(game, numSpin, 2, 1, True)
+
+
+class EuRouletter(FairRouletter):
+    def __init__(self):
+        super().__init__()()
