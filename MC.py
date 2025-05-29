@@ -1,45 +1,44 @@
-"""
-Implement the Monte Carlo Method to simulate a stock portfolio
-"""
+import random
+
+class FairRouletter():
+    def __init__(self):
+        self.pockets = []
+        for i in range(1, 37):
+            self.pockets.append(i)
+        self.ball = None
+        self.pocketOdds  = len(self.pockets) - 1
+
+    def spin(self):
+        self.ball = random.choice(self.pockets)
+
+    def betPocket(self, pocket, amt):
+        if str(pocket) == str(self.ball):
+            return amt * self.pocketOdds
+        else:
+            return -amt
+
+    def __str__(self):
+        return 'Fair Roulette'
 
 
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import datetime as dt
-from pandas_datareader import data as pdr
+def playRouletter(game, numSpins, pocket, bet, toPrint):
+    totPocket = 0
+    for i in range(numSpins):
+        game.spin()
+        totPocket += game.betPocket(pocket, bet)
+    if toPrint:
+        print(numSpins, 'spins of', game)
+        print('Expected return betting', pocket, '=',
+              str(100 * totPocket / numSpins) + '%\n')
+    return totPocket / numSpins
+
+random.seed(0)
+game = FairRouletter()
+for numSpins in (100, 1000000):
+    for i in range(3):
+        playRouletter(game, numSpin, 2, 1, True)
 
 
-def get_data(stocks, start, end):
-    stockData = pdr.get_data_yahoo(stocks, start, end)
-    stockData = stockData['Close']
-    returns = stockData.pct_change()
-    meanReturns = returns.mean()
-    covMatrix = returns.cov()
-    return meanReturns, covMatrix
-
-stockList = ['CBA', 'BHP', 'TLS', 'NAB', 'WBC', 'STO']
-stocks = [stock + '.AX' for stock in stockList]
-endDate = dt.datetime.now()
-startDate = endDate - dt.timedelta(days=300)
-
-meanReturns, covMatrix = get_data(stocks, startDate, endDate)
-
-weights = np.random.random(len(meanReturns))
-weights /= np.sum(weights)
-
-
-
-#Monte Carlo Method
-#Number of simulations
-
-mc_sims = 100
-t = 100 #timeframe in days
-
-meanM = np.full(shape=(t, len(weights)), fill_value=meanReturns)
-meanM = meanM.T
-
-portfolio_sims = np.full(shape=(t, mc_sims), fill_value=0.0)
-for m in range(0, mc_sims):
-    #MC loops
-    
+class EuRouletter(FairRouletter):
+    def __init__(self):
+        super().__init__()()
